@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from autoslug import AutoSlugField
+from django.urls import reverse
+from unidecode import unidecode
 
 User = get_user_model()
 
@@ -38,7 +40,9 @@ class Recipe(models.Model):
         through='RecipeIngredient'
     )
     cooking_time = models.PositiveIntegerField('Время приготовления')
-    slug = AutoSlugField(populate_from='title', allow_unicode=True)
+    slug = AutoSlugField(populate_from=lambda instanse: unidecode(instanse.title),
+                         allow_unicode=True,
+                         unique=True)
     tags = models.ManyToManyField('Tag', related_name='recipes')
     pub_date = models.DateField(
         'Дата публикации',
@@ -53,6 +57,9 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('recipe_view_slug', kwargs={'slug': self.slug})
 
 
 class RecipeIngredient(models.Model):
