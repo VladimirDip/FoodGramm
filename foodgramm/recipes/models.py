@@ -40,7 +40,7 @@ class Recipe(models.Model):
         through='RecipeIngredient'
     )
     cooking_time = models.PositiveIntegerField('Время приготовления')
-    slug = AutoSlugField(populate_from=lambda instanse: unidecode(instanse.title),
+    slug = AutoSlugField(populate_from='get_unicode_words',
                          allow_unicode=True,
                          unique=True)
     tags = models.ManyToManyField('Tag', related_name='recipes')
@@ -60,6 +60,9 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse('recipe_view_slug', kwargs={'slug': self.slug})
+
+    def get_unicode_words(self):
+        return unidecode(self.title)
 
 
 class RecipeIngredient(models.Model):

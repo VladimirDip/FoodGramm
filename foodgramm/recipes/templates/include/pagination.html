@@ -1,5 +1,5 @@
 {% load static %}
-{% load user_filters %}
+{% load user_filters  %}
 
 
 <nav class="pagination" aria-label="Search results pages">
@@ -29,13 +29,13 @@
         {% endfor %}
 
         {% if page_obj.has_next %}
-            {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
-                <span>...</span>
                 <li class="pagination__item">
                     <a class="pagination__link link"
                        href="?page={{ page_obj.next_page_number }}{{ tags|tags_to_url_params }}">
                         <span class="icon-right"></span></a>
                 </li>
+            {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                <span>...</span>
             {% endif %}
         {% endif %}
     </ul>

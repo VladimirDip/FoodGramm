@@ -7,15 +7,15 @@ from .logic import get_request_tags
 
 class IndexListView(ListView):
     model = Recipe
-    template_name = 'indexNotAuth.html'
+    template_name = 'index.html'
     context_object_name = 'recipes'
-    paginate_by = 1
+    paginate_by = 2
 
     def get_queryset(self):
         self.recipes = Recipe.objects.filter(tags__title__in=get_request_tags(
             request=self.request)).select_related(
             'author').prefetch_related(
-            'tags').distinct()
+            'tags').order_by('-pk').distinct('pk')
         return self.recipes
 
     def get_context_data(self, **kwargs):
