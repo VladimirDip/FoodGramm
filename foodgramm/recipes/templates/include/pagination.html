@@ -1,0 +1,42 @@
+{% load static %}
+{% load user_filters %}
+
+
+<nav class="pagination" aria-label="Search results pages">
+    <ul class="pagination__container">
+        {% if page_obj.has_previous %}
+
+
+            <li class="pagination__item">
+                <a class="pagination__link link"
+                   href="?page={{ page_obj.previous_page_number }}{{ tags|tags_to_url_params }}">
+                    <span class="icon-left"></span></a>
+            </li>
+
+            {% if page_obj.number > 3 %}
+                <span>...</span>
+            {% endif %}
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="pagination__item pagination__item_active"><a class="pagination__link link"
+                                                                        href="#">{{ i }}</a>
+                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li class="pagination__item">
+                    <a class="pagination__link link" href="?page={{ i }}{{ tags|tags_to_url_params }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                <span>...</span>
+                <li class="pagination__item">
+                    <a class="pagination__link link"
+                       href="?page={{ page_obj.next_page_number }}{{ tags|tags_to_url_params }}">
+                        <span class="icon-right"></span></a>
+                </li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</nav>

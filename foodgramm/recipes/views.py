@@ -9,6 +9,7 @@ class IndexListView(ListView):
     model = Recipe
     template_name = 'indexNotAuth.html'
     context_object_name = 'recipes'
+    paginate_by = 1
 
     def get_queryset(self):
         self.recipes = Recipe.objects.filter(tags__title__in=get_request_tags(
@@ -20,6 +21,7 @@ class IndexListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_tags'] = Tag.objects.all()
+        print(context)
         return context
 
 
@@ -27,3 +29,8 @@ class RecipeDetailView(DetailView):
     model = Recipe
     template_name = 'singlePageNotAuth.html'
     context_object_name = 'recipes'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_tags'] = Tag.objects.all()
+        return context

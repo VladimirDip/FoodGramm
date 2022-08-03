@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tag_filters %}
 
 {% load static %}
 
@@ -25,13 +26,12 @@
     {% endfor %}
     </div>
 
+{% include 'include/pagination.html' with page_obj=page_obj paginator=paginator tags=request.GET|parse_tags %}
 {% endblock %}
 
-{% include 'include/pagination.html' %}
+
 
     </main>
-
-{% include 'footer.html' %}
 
 
 {% block js %}
