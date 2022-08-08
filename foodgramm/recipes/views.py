@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from .models import Recipe, Tag
+from django.shortcuts import redirect, get_object_or_404, render
+from django.views.generic import ListView, DetailView, CreateView
 
-from .logic import get_request_tags
+from .logic import get_request_tags, save_recipe, edit_recipe
+from .models import Recipe, Tag
+from .forms import RecipeForm
 
 
 class IndexListView(ListView):
@@ -21,7 +22,7 @@ class IndexListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_tags'] = Tag.objects.all()
-        print(context)
+        # print(context)
         return context
 
 
@@ -34,3 +35,42 @@ class RecipeDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['all_tags'] = Tag.objects.all()
         return context
+
+
+# class RecipeCreateView(CreateView):
+#     template_name = 'formRecipe.html'
+#     model = Recipe
+#     form_class = RecipeForm
+#     success_url = 'index'
+#
+#     def form_valid(self, form):
+#         print(self.object)
+#         print(form.instance)
+#         save = save_recipe(self.request, form.instance)
+#         print(save)
+#         return super().form_valid(form)
+
+def recipe_new(request):
+    if request.method == 'POST':
+        form = RecipeForm(request.POST or None, files=request.FILES or None)
+        print(f'this is form {form.data}')
+        print(f'this is form_valid {form.is_valid()}')
+
+        if form.is_valid():
+            recipe = save_recipe(request, form)
+
+            return redirect(
+                'recipe_view_slug', slug=recipe.slug
+            )
+        else:
+            print(form.errors.as_data())
+    else:
+        form = RecipeForm()
+
+    context = {'form': form}
+    return render(request, 'formRecipe.html', context)
+
+
+
+
+
