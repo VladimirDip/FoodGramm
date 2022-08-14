@@ -50,6 +50,7 @@ class Recipe(models.Model):
         db_index=True
     )
 
+
     class Meta:
         ordering = ('-pub_date',)
         verbose_name = 'рецепт'

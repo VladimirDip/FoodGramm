@@ -1,6 +1,6 @@
 from django import template
 from django.contrib.auth import get_user_model
-
+from api.models import Favorites
 
 register = template.Library()
 User = get_user_model()
@@ -19,4 +19,9 @@ def tags_to_url_params(tags):
 @register.filter
 def addclass(field, css):
     return field.as_widget(attrs={'class': css})
+
+
+@register.filter
+def is_favored_by(recipe, user):
+    return Favorites.objects.filter(recipe=recipe, user=user).exists()
 
