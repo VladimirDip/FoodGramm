@@ -4,10 +4,6 @@ from django.urls import path, include
 
 from foodgramm_base import settings
 
-
-
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('django.contrib.auth.urls')),

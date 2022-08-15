@@ -1,3 +1,4 @@
+from autoslug.settings import slugify
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
@@ -64,6 +65,10 @@ class Recipe(models.Model):
 
     def get_unicode_words(self):
         return unidecode(self.title)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class RecipeIngredient(models.Model):

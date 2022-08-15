@@ -39,9 +39,17 @@
                     <p class="single-card__text"><span class="icon-time"></span>
                         {{ recipes.cooking_time }} мин.
                     </p>
-                    <p class="single-card__text"><span class="icon-user"></span>
+
+                <ul class="single-card__items">
+                    <li class="single-card__item"><p class="single-card__text"><span class="icon-user"></span>
                         {{ recipes.author|get_full_name_or_username }}
                     </p>
+                    {% if recipes.author == request.user %}
+                        <li class="single-card__item"><a style="margin-left: 2.5em" href="{% url 'recipe_edit_view' slug=recipes.slug %}" class="single-card__text">Редактировать
+                            рецепт</a></li>
+                    {% endif %}
+                </ul>
+
                 </div>
                 <ul class="single-card__items">
                     <li class="single-card__item">
@@ -84,11 +92,11 @@
 
     <script src="{% static 'js/api/Api.js' %}"></script>
     {% if user.is_authenticated %}
-    <script src="{% static 'js/components/Favorites.js' %}"></script>
-    <script src="{% static 'js/components/Subscribe.js' %}"></script>
-    <script src="{% static 'js/singlePage.js' %}"></script>
+        <script src="{% static 'js/components/Favorites.js' %}"></script>
+        <script src="{% static 'js/components/Subscribe.js' %}"></script>
+        <script src="{% static 'js/singlePage.js' %}"></script>
     {% else %}
-    <script src="{% static 'js/singlePageNotAuth.js' %}"></script>
+        <script src="{% static 'js/singlePageNotAuth.js' %}"></script>
     {% endif %}
     </body>
 {% endblock %}

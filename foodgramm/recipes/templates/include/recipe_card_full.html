@@ -2,11 +2,11 @@
 
 <div class="card" data-id={{ recipe.id }}>
     {% thumbnail recipe.image '960x500' crop='center' as im %}
-    <a href="{{recipe.get_absolute_url}}" class="link"><img src="{{ im.url }}" alt="{{ recipe.title }}"
-                                                  class="card__image"></a>
+        <a href="{{ recipe.get_absolute_url }}" class="link"><img src="{{ im.url }}" alt="{{ recipe.title }}"
+                                                                  class="card__image"></a>
     {% endthumbnail %}
     <div class="card__body">
-        <a class="card__title link" href="{{ recipe.get_absolute_url }}" >{{ recipe.title }}</a>
+        <a class="card__title link" href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a>
 
         <ul class="card__items">
             {% for tag in recipe.tags.all %}
@@ -22,6 +22,7 @@
             <p class="card__text"><span class="icon-user"></span> <a href="#"
                                                                      style="color: black">{{ recipe.author }}</a>
             </p>
+
         </div>
     </div>
     <div class="card__footer">

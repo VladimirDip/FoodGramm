@@ -73,9 +73,9 @@
                         <input type="number" id="cantidad" class="form__input" min="0">
                         <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
                     </div>
-                    <div class="form__field-group-ingredientes-container">
+                    <div class="form__field-group-ingredientes-container" что>
                         {% for i in recipe.ingredients_amounts.all %}
-                            <div>{{ forloop.counter }}</div>
+
                             <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
                             <span> {{ i.ingredient.title }} {{ i.quantity }}{{ i.ingredient.dimension }}</span>
                             <span class="form__field-item-delete"></span>
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="form__footer">
-                    <button class="button button_style_blue">Создать рецепт</button>
+                    <button class="button button_style_blue">{{ button }}</button>
                 </div>
 
         </form>

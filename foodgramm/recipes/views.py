@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from api.models import Favorites
 from .logic import get_request_tags, save_recipe, edit_recipe
@@ -51,6 +51,30 @@ class RecipeCreateView(CreateView):
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy('recipe_view_slug', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['button'] = 'Создать рецепт'
+        return context
+
+
+class RecipeUpdateView(UpdateView):
+    model = Recipe
+    template_name = 'formRecipe.html'
+    form_class = RecipeForm
+
+    def form_valid(self, form):
+        recipe_saved = edit_recipe(self.request, form, instance=form.instance)
+        return super(RecipeUpdateView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('recipe_view_slug', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['button'] = 'Обновить рецепт'
+        return context
+
 
 #will need delet later
 # def recipe_new(request):

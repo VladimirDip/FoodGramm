@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import IndexListView, RecipeDetailView, FavoritesListView, RecipeCreateView
+from .views import IndexListView, RecipeDetailView, FavoritesListView, RecipeCreateView, RecipeUpdateView
 
 urlpatterns = [
     path('', IndexListView.as_view(), name='index'),
@@ -7,5 +7,8 @@ urlpatterns = [
     path('detail/<slug:slug>/',
          RecipeDetailView.as_view(),
          name='recipe_view_slug'),
+    path('detail/<slug:slug>/edit',
+         RecipeUpdateView.as_view(),
+         name='recipe_edit_view'),
     path('favorites/', FavoritesListView.as_view(), name='favorites')
 ]
