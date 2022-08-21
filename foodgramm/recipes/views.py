@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render
+from django.db.models.signals import m2m_changed
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -65,7 +66,7 @@ class RecipeUpdateView(UpdateView):
 
     def form_valid(self, form):
         recipe_saved = edit_recipe(self.request, form, instance=form.instance)
-        return super(RecipeUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy('recipe_view_slug', kwargs={'slug': self.object.slug})
@@ -74,28 +75,6 @@ class RecipeUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['button'] = 'Обновить рецепт'
         return context
-
-
-#will need delet later
-# def recipe_new(request):
-#     if request.method == 'POST':
-#         form = RecipeForm(request.POST or None, files=request.FILES or None)
-#         print(f'this is form {form.data}')
-#         print(f'this is form_valid {form.is_valid()}')
-#
-#         if form.is_valid():
-#             recipe = save_recipe(request, form)
-#
-#             return redirect(
-#                 'recipe_view_slug', slug=recipe.slug
-#             )
-#         else:
-#             print(form.errors.as_data())
-#     else:
-#         form = RecipeForm()
-#
-#     context = {'form': form}
-#     return render(request, 'formRecipe.html', context)
 
 
 class FavoritesListView(ListView):

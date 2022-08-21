@@ -1,4 +1,5 @@
 from autoslug.settings import slugify
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
@@ -38,7 +39,7 @@ class Recipe(models.Model):
     text = models.TextField('Текст рецепта')
     ingredients = models.ManyToManyField(
         Ingredient,
-        through='RecipeIngredient'
+        through='RecipeIngredient',
     )
     cooking_time = models.PositiveIntegerField('Время приготовления')
     slug = AutoSlugField(populate_from='get_unicode_words',
@@ -50,7 +51,6 @@ class Recipe(models.Model):
         auto_now_add=True,
         db_index=True
     )
-
 
     class Meta:
         ordering = ('-pub_date',)
@@ -69,6 +69,12 @@ class Recipe(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def clean(self):
+        if not self.ingredients.exists():
+            raise ValidationError({
+                'ingredients': ValidationError('Нужно добавить хоть один ингредиент')
+            })
 
 
 class RecipeIngredient(models.Model):
