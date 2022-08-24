@@ -7,16 +7,12 @@ from django import forms
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ('title', 'tags', 'ingredients', 'cooking_time', 'text', 'image')
+        fields = ('title', 'tags', 'cooking_time', 'text', 'image')
         widgets = {'tags': forms.CheckboxSelectMultiple()}
         labels = {
             'ingredients': _('Ингридиенты'),
         }
-        error_messages = {
-            'ingredients': {
-                'required': _('Обязательное поле')
-            }
-        }
+
 
 
 

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load tag_filters %}
+{% load static %}
+
+{% block title %}Мои подписки{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static '/pages/myFollow.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="main__header">
+        <h1 class="main__title">Мои подписки</h1>
+    </div>
+    <div class="card-list">
+        {% for subscription in subscriptions %}
+            {% if subscription.recipes.all %}
+            {% include 'include/author_card.html' with author=subscription %}
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+    {% if page_obj.has_other_pages %}
+        {% include 'include/pagination.html' with page_obj=page_obj paginator=paginator tags=request.GET|parse_tags %}
+    {% endif %}
+
+{% endblock content %}
+
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/MainCards.js' %}"></script>
+<script src="{% static 'js/components/MyFollow.js' %}"></script>
+<script src="{% static 'js/components/Subscribe.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'js/favorite.js' %}"></script>
+<script src="{% static 'js/myFollow.js' %}"></script>
+
+
+
+

@@ -29,6 +29,13 @@
                     </div>
                 </div>
 
+       {% if form.non_field_errors %}
+           <div class="non-field-errors">
+           {% for error in form.non_field_errors %}
+               <p class="form-error">{{ error }}</p>
+           {% endfor %}
+           </div>
+       {% endif %}
                 <ul class="single-card__items">
                     {% for tag in recipes.tags.all %}
                         <li class="single-card__item"><span class="badge badge_style_{{ tag.color }}">
@@ -40,16 +47,16 @@
                         {{ recipes.cooking_time }} мин.
                     </p>
 
-                <ul class="single-card__items">
-                    <li class="single-card__item"><p class="single-card__text"><span class="icon-user"></span>
-                        {{ recipes.author|get_full_name_or_username }}
-                    </p>
-                    {% if recipes.author == request.user %}
-                        <li class="single-card__item">
-                            <a style="margin-left: 2.5em" href="{% url 'recipe_edit_view' slug=recipes.slug %}"
-                               class="single-card__text">Редактировать рецепт</a></li>
-                    {% endif %}
-                </ul>
+                    <ul class="single-card__items">
+                        <li class="single-card__item"><p class="single-card__text"><span class="icon-user"></span>
+                            {{ recipes.author|get_full_name_or_username }}
+                        </p>
+                            {% if recipes.author == request.user %}
+                                <li class="single-card__item">
+                                    <a style="margin-left: 2.5em" href="{% url 'recipe_edit_view' slug=recipes.slug %}"
+                                       class="single-card__text">Редактировать рецепт</a></li>
+                            {% endif %}
+                    </ul>
 
                 </div>
                 <ul class="single-card__items">
@@ -59,7 +66,14 @@
                             Добавить в покупки
                         </button>
                     </li>
+                    <li>
+                        <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>
+                        Подписаться на автора
+                        </button>
+                    </li>
                 </ul>
+
+
                 <div class="single-card__section">
                     <h3 class="single-card__section-title">Ингридиенты:</h3>
                     <div class="single-card__items single-card__items_column">

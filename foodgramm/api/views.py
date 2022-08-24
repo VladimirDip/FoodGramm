@@ -2,8 +2,8 @@ from rest_framework import viewsets, mixins, filters, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from api.models import Favorites
-from api.serializers import IngredientSerializer, FavoriteSerializer
+from api.models import Favorites, Subscriptions
+from api.serializers import IngredientSerializer, FavoriteSerializer, SubscriptionSerializer
 from recipes.models import Ingredient
 from .logic import validate_author
 
@@ -26,6 +26,15 @@ class FavoriteViewSet(CreateDestroyViewSet):
     permission_classes = [AllowAny,]
     lookup_field = 'recipe'
     queryset = Favorites.objects.all()
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+
+class SubsrtiptionViweSet(CreateDestroyViewSet):
+    serializer_class = SubscriptionSerializer
+    permission_classes = [AllowAny,]
+    queryset = Subscriptions.objects.all()
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)

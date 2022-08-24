@@ -70,12 +70,6 @@ class Recipe(models.Model):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def clean(self):
-        if not self.ingredients.exists():
-            raise ValidationError({
-                'ingredients': ValidationError('Нужно добавить хоть один ингредиент')
-            })
-
 
 class RecipeIngredient(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)

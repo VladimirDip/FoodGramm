@@ -1,5 +1,10 @@
 from django.urls import path, include
-from .views import IndexListView, RecipeDetailView, FavoritesListView, RecipeCreateView, RecipeUpdateView
+from .views import IndexListView
+from .views import RecipeDetailView
+from .views import FavoritesListView
+from .views import RecipeCreateView
+from .views import RecipeUpdateView
+from .views import SubscriptionsListView
 
 urlpatterns = [
     path('', IndexListView.as_view(), name='index'),
@@ -10,5 +15,6 @@ urlpatterns = [
     path('detail/<slug:slug>/edit',
          RecipeUpdateView.as_view(),
          name='recipe_edit_view'),
-    path('favorites/', FavoritesListView.as_view(), name='favorites')
+    path('favorites/', FavoritesListView.as_view(), name='favorites'),
+    path('subscriptions/', SubscriptionsListView.as_view(), name='subscriptions')
 ]

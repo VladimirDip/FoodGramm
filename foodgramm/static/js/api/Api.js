@@ -51,13 +51,14 @@ class Api {
     }
 
     addSubscriptions(id) {
-        return fetch(`/subscriptions`, {
+        return fetch(`/api/v1/subscriptions/`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
             },
             body: JSON.stringify({
-                id: id
+                author: id
             })
         })
             .then(e => {
@@ -69,10 +70,11 @@ class Api {
     }
 
     removeSubscriptions(id) {
-        return fetch(`/subscriptions/${id}`, {
+        return fetch(`/api/v1/subscriptions/${id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
             }
         })
             .then(e => {

@@ -1,12 +1,16 @@
+from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.db.models.signals import m2m_changed
+from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from api.models import Favorites
+from api.models import Favorites, Subscriptions
 from .logic import get_request_tags, save_recipe, edit_recipe
 from .models import Recipe, Tag
 from .forms import RecipeForm
+
+User = get_user_model()
 
 
 class IndexListView(ListView):
@@ -93,7 +97,22 @@ class FavoritesListView(ListView):
         print(connection.queries)
         return self.favorites
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_tags'] = Tag.objects.all()
         return context
+
+
+class SubscriptionsListView(ListView):
+    model = Subscriptions
+    context_object_name = 'subscriptions'
+    paginate_by = 3
+    template_name = 'myFollow.html'
+
+    def get_queryset(self):
+        self.subscriptions = User.objects.filter(
+            following__user=self.request.user).prefetch_related('recipes').annotate(
+            recipe_count=Count('recipes')).order_by('username')
+        return self.subscriptions
+
+

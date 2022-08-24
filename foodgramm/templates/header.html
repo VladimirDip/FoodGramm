@@ -7,7 +7,7 @@
                     <a href="{% url 'index' %}" class="nav__link link">Рецепты</a></li>
               {% if user.is_authenticated %}
                 <li class="nav__item {% if 'subscriptions' in url_name %}nav__item_active{% endif %}">
-                    <a href="#" class="nav__link link">Мои подписки</a></li>
+                    <a href="{% url 'subscriptions' %}" class="nav__link link">Мои подписки</a></li>
                 <li class="nav__item {% if 'new' in url_name %}nav__item_active{% endif %}">
                     <a href="{% url 'recipe_create_view' %}" class="nav__link link">Создать рецепт</a></li>
                 <li class="nav__item {% if 'favorites' in url_name %}nav__item_active{% endif %}">
