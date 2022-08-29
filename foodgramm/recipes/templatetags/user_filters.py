@@ -1,6 +1,6 @@
 from django import template
 from django.contrib.auth import get_user_model
-from api.models import Favorites
+from api.models import Favorites, Subscriptions
 
 register = template.Library()
 User = get_user_model()
@@ -24,6 +24,11 @@ def addclass(field, css):
 @register.filter
 def is_favored_by(recipe, user):
     return Favorites.objects.filter(recipe=recipe, user=user).exists()
+
+
+@register.filter
+def is_follower_by(recipe, user):
+    return Subscriptions.objects.filter(author=recipe.author, user=user).exists()
 
 
 @register.filter

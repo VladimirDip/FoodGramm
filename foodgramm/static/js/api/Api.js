@@ -70,7 +70,7 @@ class Api {
     }
 
     removeSubscriptions(id) {
-        return fetch(`/api/v1/subscriptions/${id}`, {
+        return fetch(`/api/v1/subscriptions/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ class Api {
         })
             .then(e => {
                 if (e.ok) {
-                    return e.json()
+                    return e
                 }
                 return Promise.reject(e.statusText)
             })
