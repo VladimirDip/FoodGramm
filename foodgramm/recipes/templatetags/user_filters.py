@@ -30,6 +30,11 @@ def is_favored_by(recipe, user):
 def is_follower_by(recipe, user):
     return Subscriptions.objects.filter(author=recipe.author, user=user).exists()
 
+@register.filter
+# def is_subscribed_to(user, author):
+#     return Subscriptions.objects.filter(user=user, author=author).exists()
+#
+
 
 @register.filter
 def conjoin(number, args):

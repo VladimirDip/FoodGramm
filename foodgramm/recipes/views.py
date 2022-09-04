@@ -81,6 +81,27 @@ class RecipeUpdateView(UpdateView):
         return context
 
 
+class AuthorRecipes(ListView):
+    model = Recipe
+    template_name = 'authorRecipe.html'
+    context_object_name = 'author_recipes'
+    paginate_by = 2
+
+    def get_queryset(self):
+        author = get_object_or_404(User, username=self.kwargs['author_name'])
+        self.author_recipes = Recipe.objects.filter(tags__title__in=get_request_tags(
+            request=self.request), author=author).select_related(
+            'author').prefetch_related('tags').distinct()
+        return self.author_recipes
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author'] = get_object_or_404(User, username=self.kwargs['author_name'])
+        context['all_tags'] = Tag.objects.all()
+        return context
+
+
+
 class FavoritesListView(ListView):
     model = Favorites
     context_object_name = 'favorites'

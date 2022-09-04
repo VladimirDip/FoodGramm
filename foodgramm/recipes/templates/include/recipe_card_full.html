@@ -19,8 +19,9 @@
 
         <div class="card__items card__items_column">
             <p class="card__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
-            <p class="card__text"><span class="icon-user"></span> <a href="#"
-                                                                     style="color: black">{{ recipe.author }}</a>
+            <p class="card__text"><span class="icon-user"></span>
+                <a href="{% url 'author_recipes' author_name=recipe.author %}"
+                   style="color: black">{{ recipe.author }}</a>
             </p>
 
         </div>

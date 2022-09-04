@@ -5,6 +5,7 @@ from .views import FavoritesListView
 from .views import RecipeCreateView
 from .views import RecipeUpdateView
 from .views import SubscriptionsListView
+from .views import AuthorRecipes
 
 urlpatterns = [
     path('', IndexListView.as_view(), name='index'),
@@ -16,5 +17,6 @@ urlpatterns = [
          RecipeUpdateView.as_view(),
          name='recipe_edit_view'),
     path('favorites/', FavoritesListView.as_view(), name='favorites'),
-    path('subscriptions/', SubscriptionsListView.as_view(), name='subscriptions')
+    path('subscriptions/', SubscriptionsListView.as_view(), name='subscriptions'),
+    path('author/<str:author_name>/', AuthorRecipes.as_view(), name='author_recipes')
 ]
