@@ -25,7 +25,7 @@
         {% if user.is_authenticated and author != user %}
             <div class="author-subscribe" data-author="{{ author.id }}">
                 <p style="padding: 0 0 2em 0;">
-                    {% include 'include/subcription_button.html' with recipe=author_recipes.0 %}
+                    {% include 'include/follow_button.html' with recipe=author_recipes.0 %}
                 </p>
             </div>
         {% endif %}

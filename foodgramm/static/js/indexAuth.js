@@ -6,12 +6,18 @@ const configButton = {
     purchases: {
         attr: 'data-out',
         default: {
-            class: 'button_style_light-blue',
+            class: 'button_style_blue',
             text: '<span class="icon-plus button__icon"></span>Добавить в покупки'
         },
+    //     active: {
+    //         class: 'button_style_light-blue',
+    //         text: '<span class="icon-check button__icon"></span> Рецепт добавлен'
+    //     },
+    // },
+
         active: {
-            class: 'button_style_light-blue-outline',
-            text: `<span class="icon-check button__icon"></span> Рецепт добавлен`
+            class: 'button_style_light-blue',
+            text: `<span class="icon-minus button__icon"></span>Убрать из покупок`
         }
     },
     favorites: {

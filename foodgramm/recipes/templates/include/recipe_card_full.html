@@ -27,9 +27,8 @@
         </div>
     </div>
     <div class="card__footer">
-        <button class="button button_style_light-blue" name="purchases" data-out><span
-                class="icon-plus button__icon"></span>Добавить в покупки
-        </button>
+        {% include 'include/purchase_button.html' with recipe=recipe %}
+
     </div>
 </div>
 

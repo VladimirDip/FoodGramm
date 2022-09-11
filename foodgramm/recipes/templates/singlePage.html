@@ -65,7 +65,7 @@
                         {% if user.is_authenticated %}
                             {% if recipe.author != user %}
                                 <li class="single-card__item">
-                                    {% include 'include/subcription_button.html' with recipe=recipe %}
+                                    {% include 'include/follow_button.html' with recipe=recipe %}
                                 </li>
                             {% endif %}
                         {% endif %}

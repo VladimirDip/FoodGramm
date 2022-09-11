@@ -1,6 +1,6 @@
 from django import template
 from django.contrib.auth import get_user_model
-from api.models import Favorites, Subscriptions
+from api.models import Favorites, Subscriptions, Purchases
 
 register = template.Library()
 User = get_user_model()
@@ -30,10 +30,10 @@ def is_favored_by(recipe, user):
 def is_follower_by(recipe, user):
     return Subscriptions.objects.filter(author=recipe.author, user=user).exists()
 
+
 @register.filter
-# def is_subscribed_to(user, author):
-#     return Subscriptions.objects.filter(user=user, author=author).exists()
-#
+def is_purchase_by(recipe, user):
+    return Purchases.objects.filter(recipe=recipe, user=user).exists()
 
 
 @register.filter
@@ -46,4 +46,3 @@ def conjoin(number, args):
         return f'{number} {args[1]}'
     elif last_digit > 4 or last_digit == 0:
         return f'{number} {args[2]}'
-

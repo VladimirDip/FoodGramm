@@ -1,8 +1,11 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
 from foodgramm_base import settings
+
+handler400 = 'foodgramm_base.views.page_bad_request'
+handler404 = 'foodgramm_base.views.page_not_found'
+handler500 = 'foodgramm_base.views.server_error'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

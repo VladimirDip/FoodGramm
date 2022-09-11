@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.db.models.signals import m2m_changed
@@ -5,12 +6,18 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from api.models import Favorites, Subscriptions
-from .logic import get_request_tags, save_recipe, edit_recipe
+from api.models import Favorites, Subscriptions, Purchases
+from .logic import get_request_tags, save_recipe, edit_recipe, purchases_download
 from .models import Recipe, Tag
 from .forms import RecipeForm
 
 User = get_user_model()
+
+
+@login_required
+def purchases_download_by(request):
+    list_download = purchases_download(request=request)
+    return list_download
 
 
 class IndexListView(ListView):
@@ -36,7 +43,7 @@ class IndexListView(ListView):
 
 class RecipeDetailView(DetailView):
     model = Recipe
-    template_name = 'singlePageNotAuth.html'
+    template_name = 'singlePage.html'
     context_object_name = 'recipe'
 
     def get_context_data(self, **kwargs):
@@ -135,5 +142,13 @@ class SubscriptionsListView(ListView):
             following__user=self.request.user).prefetch_related('recipes').annotate(
             recipe_count=Count('recipes')).order_by('username')
         return self.subscriptions
+
+
+class ShopListView(ListView):
+    model = Purchases
+    context_object_name = 'purchases'
+    paginate_by = 3
+    template_name = 'shopList.html'
+
 
 

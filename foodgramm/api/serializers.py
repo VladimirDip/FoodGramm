@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from recipes.models import Ingredient
-from .models import Favorites, Subscriptions
+from .models import Favorites, Subscriptions, Purchases
 # from .logic import validate_author
 
 
@@ -31,3 +31,11 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         if data['author'] == data['user']:
             raise serializers.ValidationError('Нельзя добавить подписаться на самого себя')
         return data
+
+
+class PurchaseSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Purchases
+        fields = ('user', 'recipe')

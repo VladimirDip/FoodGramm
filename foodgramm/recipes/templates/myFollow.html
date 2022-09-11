@@ -14,9 +14,9 @@
     </div>
     <div class="card-list">
         {% for subscription in subscriptions %}
-            {% if subscription.recipes.all %}
+{#            {% if subscription.recipes.all %}#}
             {% include 'include/author_card.html' with author=subscription %}
-            {% endif %}
+{#            {% endif %}#}
         {% endfor %}
 
     </div>
@@ -27,15 +27,15 @@
 
 {% endblock content %}
 
-<script src="{% static 'js/config/config.js' %}"></script>
+{% block js %}
 <script src="{% static 'js/components/MainCards.js' %}"></script>
-<script src="{% static 'js/components/MyFollow.js' %}"></script>
-<script src="{% static 'js/components/Subscribe.js' %}"></script>
-<script src="{% static 'js/components/Header.js' %}"></script>
 <script src="{% static 'js/api/Api.js' %}"></script>
-<script src="{% static 'js/favorite.js' %}"></script>
+<script src="{% static 'js/components/Subscribe.js' %}"></script>
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/components/MyFollow.js' %}"></script>
 <script src="{% static 'js/myFollow.js' %}"></script>
-
+{% endblock js %}
 
 
 

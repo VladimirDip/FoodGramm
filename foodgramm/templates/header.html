@@ -13,7 +13,7 @@
                 <li class="nav__item {% if 'favorites' in url_name %}nav__item_active{% endif %}">
                     <a href="{% url 'favorites' %}" class="nav__link link">Избранное</a></li>
                 <li class="nav__item {% if 'purchases' in url_name %}nav__item_active{% endif %}">
-                    <a href="#" class="nav__link link">Список покупок</a>
+                    <a href="{% url 'purchases' %}" class="nav__link link">Список покупок</a>
                     <span class="badge badge_style_blue nav__badge" id="counter">{{ shop_list_size }}</span></li>
               {% endif %}
                 {% endwith %}

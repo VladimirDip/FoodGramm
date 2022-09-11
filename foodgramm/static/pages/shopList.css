@@ -41,6 +41,12 @@
 @import "../blocks/footer/__items/footer__items.css";
 @import "../blocks/footer/__brand/footer__brand.css";
 
+@import "../blocks/pagination/pagination.css";
+@import "../blocks/pagination/__container/pagination__container.css";
+@import "../blocks/pagination/__item/pagination__item.css";
+@import "../blocks/pagination/__item/_active/pagination__item_active.css";
+@import "../blocks/pagination/__link/pagination__link.css";
+
 
 @import "../blocks/recipe/recipe.css";
 @import "../blocks/recipe/__title/recipe__title.css";
