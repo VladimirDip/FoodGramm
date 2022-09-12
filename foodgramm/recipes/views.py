@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.shortcuts import redirect, get_object_or_404, render
-from django.db.models.signals import m2m_changed
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
@@ -20,7 +19,14 @@ def purchases_download_by(request):
     return list_download
 
 
-class IndexListView(ListView):
+class DataMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_tags'] = Tag.objects.all()
+        return context
+
+
+class IndexListView(DataMixin, ListView):
     model = Recipe
     template_name = 'index.html'
     context_object_name = 'recipes'
@@ -34,22 +40,11 @@ class IndexListView(ListView):
 
         return self.recipes
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['all_tags'] = Tag.objects.all()
-        # print(context)
-        return context
-
 
 class RecipeDetailView(DetailView):
     model = Recipe
     template_name = 'singlePage.html'
     context_object_name = 'recipe'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['all_tags'] = Tag.objects.all()
-        return context
 
 
 class RecipeCreateView(CreateView):
@@ -88,7 +83,7 @@ class RecipeUpdateView(UpdateView):
         return context
 
 
-class AuthorRecipes(ListView):
+class AuthorRecipes(DataMixin, ListView):
     model = Recipe
     template_name = 'authorRecipe.html'
     context_object_name = 'author_recipes'
@@ -104,12 +99,10 @@ class AuthorRecipes(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['author'] = get_object_or_404(User, username=self.kwargs['author_name'])
-        context['all_tags'] = Tag.objects.all()
         return context
 
 
-
-class FavoritesListView(ListView):
+class FavoritesListView(DataMixin, ListView):
     model = Favorites
     context_object_name = 'favorites'
     paginate_by = 3
@@ -120,15 +113,7 @@ class FavoritesListView(ListView):
             user_id=self.request.user, recipe_id__tags__title__in=get_request_tags(
                 request=self.request)).select_related(
             'user').prefetch_related('recipe_id__tags').distinct()
-        print(self.favorites)
-        from django.db import connection
-        print(connection.queries)
         return self.favorites
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['all_tags'] = Tag.objects.all()
-        return context
 
 
 class SubscriptionsListView(ListView):
@@ -149,6 +134,3 @@ class ShopListView(ListView):
     context_object_name = 'purchases'
     paginate_by = 3
     template_name = 'shopList.html'
-
-
-
